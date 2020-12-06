@@ -7,6 +7,7 @@ export default function Chatbox() {
   const [message, setMessage] = useState("");
   const [msgArray, setMsgArray] = useState([]);
   const [name, setName] = useState("");
+  const [counter, setCounter] = useState();
 
   const notify = new Audio(soundfile);
 
@@ -28,14 +29,18 @@ export default function Chatbox() {
   ws.onmessage = async (e) => {
     const msg = await JSON.parse(e.data).message;
     const name = await JSON.parse(e.data).name;
+    const count = await JSON.parse(e.data).count;
+    setCounter(count);
     const obj = {
       name: name,
       message: msg,
     };
-    setMsgArray([...msgArray, obj]);
-    const chatDiv = document.getElementById("chatbox");
-    chatDiv.scrollTop = chatDiv.scrollHeight;
-    notify.play();
+    if (name && msg) {
+      setMsgArray([...msgArray, obj]);
+      const chatDiv = document.getElementById("chatbox");
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+      notify.play();
+    }
   };
 
   function callModal() {
@@ -125,7 +130,7 @@ export default function Chatbox() {
         className="d-flex align-items-center justify-content-center flex-column"
       >
         <div className="my-2">
-          <h1>Bitch About Anything Anonymously</h1>
+          <h2>Bitch About Anything Anonymously</h2>
         </div>
         <div className="container shadow d-flex flex-column">
           <div
@@ -133,6 +138,13 @@ export default function Chatbox() {
             style={{ overflowY: "scroll" }}
             id="chatbox"
           >
+            <div className="d-flex w-100">
+              <div className="ml-auto">
+                <p className="font-weight-bold m-0">
+                  Users online: <span className="text-danger">{counter}</span>
+                </p>
+              </div>
+            </div>
             <div>
               {msgArray.map((msg, index) => {
                 return (
