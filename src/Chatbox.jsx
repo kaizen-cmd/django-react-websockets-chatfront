@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import soundfile from "./notify.mp3";
 
 const ws = new WebSocket("wss://expresshere.me:8001");
 
@@ -7,6 +8,8 @@ export default function Chatbox() {
   const [msgArray, setMsgArray] = useState([]);
   const [name, setName] = useState("");
 
+  const notify = new Audio(soundfile);
+
   async function fetchMessages() {
     const res = await (await fetch("https://expresshere.me/logs/")).json();
     setMsgArray(res);
@@ -14,7 +17,7 @@ export default function Chatbox() {
 
   function msgSender(e) {
     e.preventDefault();
-    if (name === "" && name !== "Admin") {
+    if (name === "") {
       callModal();
     } else {
       ws.send(JSON.stringify({ message: message, name: name }));
@@ -22,16 +25,17 @@ export default function Chatbox() {
     }
   }
 
-  ws.onmessage = (e) => {
-    const msg = JSON.parse(e.data).message;
-    const name = JSON.parse(e.data).name;
+  ws.onmessage = async (e) => {
+    const msg = await JSON.parse(e.data).message;
+    const name = await JSON.parse(e.data).name;
     const obj = {
       name: name,
       message: msg,
     };
     setMsgArray([...msgArray, obj]);
     const chatDiv = document.getElementById("chatbox");
-    chatDiv.scrollTop = chatDiv.scrollHeight; 
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+    notify.play();
   };
 
   function callModal() {
@@ -41,14 +45,21 @@ export default function Chatbox() {
   function setUsername(e) {
     e.preventDefault();
     setName(name);
-    localStorage.setItem("name", name);
+    localStorage.setItem("name", "abc");
   }
 
   useEffect(() => {
-    if (!localStorage.getItem("name")) {
+    async function fetchMessagesWrapper() {
+      await fetchMessages();
+      const chatDiv = document.getElementById("chatbox");
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+    }
+    fetchMessagesWrapper();
+    if (localStorage.getItem("name")) {
+      setName(localStorage.getItem("name"));
+    } else {
       callModal();
     }
-    fetchMessages();
   }, []);
 
   return (
@@ -63,7 +74,6 @@ export default function Chatbox() {
       >
         Launch demo modal
       </button>
-
       <div
         className="modal fade"
         id="exampleModalCenter"
@@ -160,6 +170,14 @@ export default function Chatbox() {
               </div>
             </form>
           </div>
+          <p className="my-2 text-center">
+            Hello, welcome to anonymous chat app made using{" "}
+            <span className="font-weight-bold">
+              Websockets, Django Channels, React, Django Rest, Nginx, Daphne,
+              Gunicorn
+            </span>
+            😁😁
+          </p>
         </div>
       </div>
     </>

@@ -1,16 +1,21 @@
+html {
+  scroll-behavior: smooth;
+}
+
 .container {
   width: 50%;
-  height: 70%;
+  height: 80%;
 }
 
 button {
-    box-shadow: none;
-    border: none;
+  box-shadow: none;
+  border: none;
 }
 
-input:focus, button:focus {
-    outline: none;
-    box-shadow: none;
+input:focus,
+button:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 input::placeholder {
