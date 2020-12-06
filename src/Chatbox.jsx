@@ -133,18 +133,18 @@ export default function Chatbox() {
           <h2>Bitch About Anything Anonymously</h2>
         </div>
         <div className="container shadow d-flex flex-column">
+          <div className="d-flex w-100 p-3">
+            <div className="ml-auto">
+              <p className="font-weight-bold m-0">
+                Users online: <span className="text-danger">{counter}</span>
+              </p>
+            </div>
+          </div>
           <div
             className="log flex-fill p-3"
             style={{ overflowY: "scroll" }}
             id="chatbox"
           >
-            <div className="d-flex w-100">
-              <div className="ml-auto">
-                <p className="font-weight-bold m-0">
-                  Users online: <span className="text-danger">{counter}</span>
-                </p>
-              </div>
-            </div>
             <div>
               {msgArray.map((msg, index) => {
                 return (
