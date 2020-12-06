@@ -14,7 +14,7 @@ export default function Chatbox() {
 
   function msgSender(e) {
     e.preventDefault();
-    if (name === "") {
+    if (name === "" && name !== "Admin") {
       callModal();
     } else {
       ws.send(JSON.stringify({ message: message, name: name }));
@@ -39,10 +39,13 @@ export default function Chatbox() {
   function setUsername(e) {
     e.preventDefault();
     setName(name);
+    localStorage.setItem("name", name);
   }
 
   useEffect(() => {
-    callModal();
+    if (!localStorage.getItem("name")) {
+      callModal();
+    }
     fetchMessages();
   }, []);
 
