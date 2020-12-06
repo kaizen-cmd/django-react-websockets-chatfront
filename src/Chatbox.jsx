@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-const ws = new WebSocket("ws://127.0.0.1:8000");
+const ws = new WebSocket("ws://54.83.84.238:8000");
 
 export default function Chatbox() {
   const [message, setMessage] = useState("");
