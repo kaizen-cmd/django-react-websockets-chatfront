@@ -30,7 +30,9 @@ export default function Chatbox() {
     const msg = await JSON.parse(e.data).message;
     const name = await JSON.parse(e.data).name;
     const count = await JSON.parse(e.data).count;
-    setCounter(count);
+    if (count) {
+      setCounter(count);
+    }
     const obj = {
       name: name,
       message: msg,
