@@ -1,0 +1,27 @@
+.container {
+  width: 50%;
+  height: 70%;
+}
+
+button {
+    box-shadow: none;
+    border: none;
+}
+
+input:focus, button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+input::placeholder {
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 990px) {
+  h1 {
+    font-size: 1.2rem;
+  }
+  .container {
+    width: 90%;
+  }
+}
