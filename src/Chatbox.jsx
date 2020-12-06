@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
+
 const ws = new WebSocket("wss://expresshere.me:8001");
 
 export default function Chatbox() {
   const [message, setMessage] = useState("");
   const [msgArray, setMsgArray] = useState([]);
   const [name, setName] = useState("");
+
+  async function fetchMessages() {
+    const res = await (await fetch("https://expresshere.me/logs/")).json();
+    setMsgArray(res);
+  }
 
   function msgSender(e) {
     e.preventDefault();
@@ -35,9 +41,9 @@ export default function Chatbox() {
     setName(name);
   }
 
-
   useEffect(() => {
     callModal();
+    fetchMessages();
   }, []);
 
   return (
@@ -45,7 +51,7 @@ export default function Chatbox() {
       <button
         id="modal-launcher"
         type="button"
-        class="btn btn-primary"
+        className="btn btn-primary"
         data-toggle="modal"
         data-target="#exampleModalCenter"
         style={{ display: "none" }}
@@ -54,22 +60,22 @@ export default function Chatbox() {
       </button>
 
       <div
-        class="modal fade"
+        className="modal fade"
         id="exampleModalCenter"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLongTitle">
                 Enter nickname to continue
               </h5>
               <button
                 type="button"
-                class="close"
+                className="close"
                 data-dismiss="modal"
                 aria-label="Close"
               >
@@ -77,7 +83,7 @@ export default function Chatbox() {
               </button>
             </div>
             <form onSubmit={(e) => setUsername(e)}>
-              <div class="modal-body">
+              <div className="modal-body">
                 <input
                   type="text"
                   className="border-none p-2 font-weight-bold w-100"
@@ -86,10 +92,10 @@ export default function Chatbox() {
                   required
                 />
               </div>
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="submit"
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                   data-dismiss="modal"
                 >
                   Start
@@ -107,10 +113,7 @@ export default function Chatbox() {
           <h1>Bitch About Anything Anonymously</h1>
         </div>
         <div className="container shadow d-flex flex-column">
-          <div
-            className="log flex-fill p-3"
-            style={{ overflowY: "scroll" }}
-          >
+          <div className="log flex-fill p-3" style={{ overflowY: "scroll" }}>
             <div>
               {msgArray.map((msg, index) => {
                 return (
@@ -139,7 +142,10 @@ export default function Chatbox() {
                 />
               </div>
               <div>
-                <button className="h-100 w-100 bg-warning text-dark font-weight-bold px-4" type="submit">
+                <button
+                  className="h-100 w-100 bg-warning text-dark font-weight-bold px-4"
+                  type="submit"
+                >
                   Send
                 </button>
               </div>
