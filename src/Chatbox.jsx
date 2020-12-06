@@ -7,7 +7,7 @@ export default function Chatbox() {
   const [message, setMessage] = useState("");
   const [msgArray, setMsgArray] = useState([]);
   const [name, setName] = useState("");
-  const [counter, setCounter] = useState();
+  const [counter, setCounter] = useState(0);
 
   const notify = new Audio(soundfile);
 
