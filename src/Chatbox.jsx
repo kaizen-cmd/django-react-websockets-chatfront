@@ -30,6 +30,8 @@ export default function Chatbox() {
       message: msg,
     };
     setMsgArray([...msgArray, obj]);
+    const chatDiv = document.getElementById("chatbox");
+    chatDiv.scrollTop = chatDiv.scrollHeight; 
   };
 
   function callModal() {
@@ -116,7 +118,11 @@ export default function Chatbox() {
           <h1>Bitch About Anything Anonymously</h1>
         </div>
         <div className="container shadow d-flex flex-column">
-          <div className="log flex-fill p-3" style={{ overflowY: "scroll" }}>
+          <div
+            className="log flex-fill p-3"
+            style={{ overflowY: "scroll" }}
+            id="chatbox"
+          >
             <div>
               {msgArray.map((msg, index) => {
                 return (
