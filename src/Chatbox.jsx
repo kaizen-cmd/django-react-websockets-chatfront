@@ -8,12 +8,18 @@ export default function Chatbox() {
   const [msgArray, setMsgArray] = useState([]);
   const [name, setName] = useState("");
   const [counter, setCounter] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [pager, setPager] = useState(1);
 
   const notify = new Audio(soundfile);
 
-  async function fetchMessages() {
-    const res = await (await fetch("https://expresshere.me/logs/")).json();
-    setMsgArray(res);
+  async function fetchMessages(page_no) {
+    const res = await (
+      await fetch(`https://expresshere.me/logs?page=${page_no}`)
+    ).json();
+    if (page_no <= res.count) {
+      setMsgArray([...res.results, ...msgArray]);
+    }
   }
 
   function msgSender(e) {
@@ -28,20 +34,22 @@ export default function Chatbox() {
 
   ws.onmessage = async (e) => {
     const msg = await JSON.parse(e.data).message;
-    const name = await JSON.parse(e.data).name;
-    const count = await JSON.parse(e.data).count;
+    const name_res = await JSON.parse(e.data).name;
+    const count = await JSON.parse(e.data).counter;
     if (count) {
       setCounter(count);
     }
     const obj = {
-      name: name,
+      name: name_res,
       message: msg,
     };
-    if (name && msg) {
+    if (name_res && msg) {
       setMsgArray([...msgArray, obj]);
       const chatDiv = document.getElementById("chatbox");
       chatDiv.scrollTop = chatDiv.scrollHeight;
-      notify.play();
+      if (name_res !== name) {
+        notify.play();
+      }
     }
   };
 
@@ -55,11 +63,26 @@ export default function Chatbox() {
     localStorage.setItem("name", "abc");
   }
 
+  function scrollHnadler(e) {
+    const current = e.target.scrollTop;
+    if (current <= 0) {
+      setPager(pager + 1);
+      if (pager < totalPages) {
+        fetchMessages(pager);
+        e.target.scrollTop = 100;
+      }
+    }
+  }
+
   useEffect(() => {
     async function fetchMessagesWrapper() {
-      await fetchMessages();
+      await fetchMessages(pager);
       const chatDiv = document.getElementById("chatbox");
       chatDiv.scrollTop = chatDiv.scrollHeight;
+      const res = await await (
+        await fetch("http://expresshere.me/logs/")
+      ).json();
+      setTotalPages(Math.floor(res.count / 20) + 1);
     }
     fetchMessagesWrapper();
     if (localStorage.getItem("name")) {
@@ -67,6 +90,7 @@ export default function Chatbox() {
     } else {
       callModal();
     }
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -146,6 +170,7 @@ export default function Chatbox() {
             className="log flex-fill p-3"
             style={{ overflowY: "scroll" }}
             id="chatbox"
+            onScroll={(e) => scrollHnadler(e)}
           >
             <div>
               {msgArray.map((msg, index) => {
