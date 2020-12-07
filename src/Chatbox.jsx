@@ -80,7 +80,7 @@ export default function Chatbox() {
       const chatDiv = document.getElementById("chatbox");
       chatDiv.scrollTop = chatDiv.scrollHeight;
       const res = await await (
-        await fetch("http://expresshere.me/logs/")
+        await fetch("https://expresshere.me/logs/")
       ).json();
       setTotalPages(Math.floor(res.count / 20) + 1);
     }
