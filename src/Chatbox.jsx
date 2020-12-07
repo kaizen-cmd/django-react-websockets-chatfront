@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import soundfile from "./notify.mp3";
 
 const ws = new WebSocket("wss://expresshere.me:8001");
+var pager = 1;
 
 export default function Chatbox() {
   const [message, setMessage] = useState("");
@@ -9,7 +10,6 @@ export default function Chatbox() {
   const [name, setName] = useState("");
   const [counter, setCounter] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [pager, setPager] = useState(1);
 
   const notify = new Audio(soundfile);
 
@@ -17,9 +17,7 @@ export default function Chatbox() {
     const res = await (
       await fetch(`https://expresshere.me/logs?page=${page_no}`)
     ).json();
-    if (page_no <= res.count) {
-      setMsgArray([...res.results, ...msgArray]);
-    }
+    setMsgArray([...res.results.reverse(), ...msgArray]);
   }
 
   function msgSender(e) {
@@ -66,10 +64,11 @@ export default function Chatbox() {
   function scrollHnadler(e) {
     const current = e.target.scrollTop;
     if (current <= 0) {
-      setPager(pager + 1);
-      if (pager < totalPages) {
+      pager += 1;
+      if (pager < totalPages + 1) {
         fetchMessages(pager);
-        e.target.scrollTop = 100;
+        e.target.scrollTop = 200;
+        pager += 1;
       }
     }
   }
@@ -82,7 +81,11 @@ export default function Chatbox() {
       const res = await await (
         await fetch("https://expresshere.me/logs/")
       ).json();
-      setTotalPages(Math.floor(res.count / 20) + 1);
+      if (res.count % 20 === 0) {
+        setTotalPages(res.count / 20);
+      } else {
+        setTotalPages(Math.floor(res.count / 20) + 1);
+      }
     }
     fetchMessagesWrapper();
     if (localStorage.getItem("name")) {
