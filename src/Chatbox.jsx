@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import soundfile from "./notify.mp3";
 
 const ws = new WebSocket("wss://expresshere.me:8001");
@@ -10,6 +10,9 @@ export default function Chatbox() {
   const [name, setName] = useState("");
   const [counter, setCounter] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+
+  const userIpRef = useRef();
+  const msgIpRef = useRef();
 
   const notify = new Audio(soundfile);
 
@@ -53,12 +56,18 @@ export default function Chatbox() {
 
   function callModal() {
     document.getElementById("modal-launcher").click();
+    setTimeout(() => {
+      userIpRef.current.focus();
+    }, 1000);
   }
 
   function setUsername(e) {
+    document.getElementById("dismiss_modal").click();
     e.preventDefault();
     setName(name);
-    localStorage.setItem("name", "abc");
+    setTimeout(() => {
+      msgIpRef.current.focus();
+    }, 1000);
   }
 
   function scrollHnadler(e) {
@@ -138,15 +147,17 @@ export default function Chatbox() {
                   className="border-none p-2 font-weight-bold w-100"
                   value={name}
                   onChange={(e) => setName(e.currentTarget.value)}
+                  ref={userIpRef}
                   required
                 />
               </div>
               <div className="modal-footer">
                 <button
-                  type="submit"
-                  className="btn btn-primary"
+                  className="btn btn-primary d-none"
                   data-dismiss="modal"
-                >
+                  id="dismiss_modal"
+                ></button>
+                <button type="submit" className="btn btn-primary">
                   Start
                 </button>
               </div>
@@ -200,6 +211,7 @@ export default function Chatbox() {
                   value={message}
                   onChange={(e) => setMessage(e.currentTarget.value)}
                   placeholder={`Send a message as ${name}...`}
+                  ref={msgIpRef}
                 />
               </div>
               <div>
