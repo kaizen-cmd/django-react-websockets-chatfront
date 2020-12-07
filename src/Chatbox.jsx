@@ -67,7 +67,7 @@ export default function Chatbox() {
     setName(name);
     setTimeout(() => {
       msgIpRef.current.focus();
-    }, 1000);
+    }, 1500);
   }
 
   function scrollHnadler(e) {
