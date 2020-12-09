@@ -200,14 +200,14 @@ export default function Chatbox() {
                 />
               </div>
               <div className="modal-footer">
-                <button
+                <a
                   className="btn btn-primary d-none"
                   data-dismiss="modal"
                   id="dismiss_modal"
-                ></button>
-                <button type="submit" className="btn btn-primary">
+                ></a>
+                <a type="submit" className="btn btn-primary">
                   Start
-                </button>
+                </a>
               </div>
             </form>
           </div>
