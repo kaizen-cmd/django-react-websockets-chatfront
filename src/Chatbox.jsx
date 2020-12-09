@@ -170,7 +170,7 @@ export default function Chatbox() {
         className="d-flex align-items-center justify-content-center flex-column"
       >
         <div className="my-2">
-          <h2>Bitch About Anything Anonymously</h2>
+          <h2>Talk About Anything with FREEDOM</h2>
         </div>
         <div className="container shadow d-flex flex-column">
           <div className="d-flex w-100 p-3">
