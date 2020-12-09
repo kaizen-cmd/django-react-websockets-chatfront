@@ -307,7 +307,13 @@ export default function Chatbox() {
             </div>
             <div className="overflow-scroll h-90 px-3">
               <div className="shadow-sm mb-2 py-2 px-3 border-5 topics">
-                Tejas
+                MIT ADT
+              </div>
+              <div className="shadow-sm mb-2 py-2 px-3 border-5 topics">
+                World Class Education
+              </div>
+              <div className="shadow-sm mb-2 py-2 px-3 border-5 topics">
+                Placements
               </div>
             </div>
           </div>
