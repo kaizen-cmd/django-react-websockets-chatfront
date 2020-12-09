@@ -2,9 +2,48 @@ html {
   scroll-behavior: smooth;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(238, 237, 237);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(179, 182, 179);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(100, 102, 100);
+}
+
 .container {
   width: 50%;
   height: 80%;
+}
+
+.h-80 {
+  height: 80%;
+}
+
+.message-box {
+  border-right: #ff2e63 7px solid;
+  border-radius: 5px;
+}
+
+.names {
+  border-right: #08d9d6 7px solid;
+  border-radius: 5px;
+}
+
+.topics {
+  border-right: #0a043c 7px solid;
+  border-radius: 5px;
 }
 
 button {
@@ -22,11 +61,27 @@ input::placeholder {
   opacity: 0.5;
 }
 
+.overflow-scroll {
+  overflow-y: scroll;
+}
+
+.border-5 {
+  border-radius: 7px;
+}
+
+.h-90 {
+  height: 93%;
+}
+
+
 @media screen and (max-width: 990px) {
   h1 {
     font-size: 1.2rem;
   }
   .container {
-    width: 90%;
+    width: 60%;
+  }
+  .shift {
+    width: 20%;
   }
 }
