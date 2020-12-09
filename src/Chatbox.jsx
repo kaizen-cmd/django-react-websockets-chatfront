@@ -204,10 +204,11 @@ export default function Chatbox() {
                   className="btn btn-primary d-none"
                   data-dismiss="modal"
                   id="dismiss_modal"
-                ></a>
-                <a type="submit" className="btn btn-primary">
+                  href="/"
+                >&nbsp;</a>
+                <button type="submit" className="btn btn-primary">
                   Start
-                </a>
+                </button>
               </div>
             </form>
           </div>
