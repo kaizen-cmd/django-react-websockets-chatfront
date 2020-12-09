@@ -205,7 +205,9 @@ export default function Chatbox() {
                   data-dismiss="modal"
                   id="dismiss_modal"
                   href="/"
-                >&nbsp;</a>
+                >
+                  &nbsp;
+                </a>
                 <button type="submit" className="btn btn-primary">
                   Start
                 </button>
@@ -256,12 +258,21 @@ export default function Chatbox() {
                 return (
                   <div
                     key={index}
-                    className="shadow-sm p-2 mb-3 d-flex message-box"
+                    className={`shadow-sm px-2 py-1 d-flex flex-column mb-3 ${
+                      name === msg.name ? "message-box" : "message-box-me"
+                    }`}
                   >
-                    <div>
-                      <p className="m-0 font-weight-bold">{msg.name}:&nbsp;</p>
+                    <div className={`${name === msg.name && "ml-auto"}`}>
+                      <p
+                        className={`m-0 font-weight-bold ${
+                          name === msg.name ? "text-danger" : "text-success"
+                        }`}
+                        style={{ fontSize: "0.8rem" }}
+                      >
+                        {msg.name}
+                      </p>
                     </div>
-                    <div className="flex-fill">
+                    <div className={`${name === msg.name && "ml-auto"}`}>
                       <p className="m-0">{msg.message}</p>
                     </div>
                   </div>

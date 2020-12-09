@@ -32,7 +32,13 @@ html {
 }
 
 .message-box {
-  border-right: #ff2e63 7px solid;
+  border-left: #ff2e63 7px solid;
+  border-radius: 5px;
+}
+
+
+.message-box-me {
+  border-right: #583d72 7px solid;
   border-radius: 5px;
 }
 
